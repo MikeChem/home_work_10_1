@@ -1,4 +1,4 @@
-def filter_by_state(list_of_dictionary: list, key: str ="EXECUTED") -> list:
+def filter_by_state(list_of_dictionary: list, key: str = "EXECUTED") -> list:
     """
     Возвращает новый список словарей, содержащий только те словари,
     у которых ключ state cоответствует указанному значению.
