@@ -10,7 +10,7 @@ def mask_account_card(account_card: str) -> str:
     index_space = account_card.rfind(" ")
 
     card_name = account_card[:index_space]
-    card_number = account_card[index_space + 1:]
+    card_number = account_card[index_space + 1 :]
 
     if len(card_number) == 20:
         return f"{card_name} {get_mask_account(card_number)}"
