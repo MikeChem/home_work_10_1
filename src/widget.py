@@ -12,10 +12,13 @@ def mask_account_card(account_card: str) -> str:
     card_name = account_card[:index_space]
     card_number = account_card[index_space + 1 :]
 
-    if card_name == "Счет":
+    if len(card_number) == 20:
         return f"{card_name} {get_mask_account(card_number)}"
-    else:
+    elif len(card_number) == 16:
         return f"{card_name} {get_mask_card_number(card_number)}"
+
+    else:
+        return "Неверные данные"
 
 
 def get_date(date_error: str) -> str:
@@ -27,5 +30,8 @@ def get_date(date_error: str) -> str:
     """
 
     date_fix = date_error[:10]
+
+    if len(date_error) < 10:
+        return "Неверные данные"
 
     return ".".join(date_fix.split("-")[::-1])
