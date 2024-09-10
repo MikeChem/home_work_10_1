@@ -1,0 +1,14 @@
+my_function is ok
+my_function is ok
+my_function is ok
+my_function is ok
+my_function is ok
+my_function is ok
+my_function is ok
+my_function is ok
+my_function is ok
+my_function is ok
+my_function is ok
+my_function error: division by zero Inputs: ((10, 0), {}
+my_function is ok
+my_function is ok
