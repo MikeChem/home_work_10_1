@@ -2,6 +2,11 @@ from time import time
 
 
 def log(filename=None):
+    """
+    Декоратор log будет автоматически логировать начало и конец выполнения функции,
+    а также ее результаты или возникшие ошибки
+    """
+
     def decorator(my_function):
         def wrapper(*args, **kwargs):
             log_str = ""
