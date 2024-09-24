@@ -18,27 +18,32 @@ def conversion_func(transaction):
     для получения текущего курса валют и конвертации суммы операции в рубли.
     """
 
-    curr_code_to = "RUB"
-    curr_code_from = transaction["operationAmount"]["currency"]["code"]
-    amount = transaction["operationAmount"]["amount"]
-    url = (
-        f"https://api.apilayer.com/exchangerates_data/convert?to={curr_code_to}&from={curr_code_from}&amount={amount}"
-    )
-    if curr_code_from == "USD" or "EUR":
-        response = requests.request("GET", url, headers=headers, data=payload)
-        result = response.json()["result"]
+    try:
+        curr_code_to = "RUB"
+        currency = transaction["operationAmount"]["currency"]["code"]
+        amount = transaction["operationAmount"]["amount"]
+        url = f"https://api.apilayer.com/exchangerates_data/convert?to={curr_code_to}&from={currency}&amount={amount}"
 
-        return result
-    else:
-        return amount
+        if currency not in "RUB":
+            response = requests.request("GET", url, headers=headers, data=payload)
+
+            if response.status_code == 200:
+                result = response.json()["result"]
+                return float(result)
+            else:
+                return 0.0
+        else:
+            return float(amount)
+    except KeyError:
+        return "Транзакция не найдена"
 
 
 # from src.utils import load_transactions
 #
 # # Загрузите транзакции из JSON-файла
-# transactions = load_transactions('../data/operations.json')
+# transactions = load_transactions("../data/operations.json")
 #
 # # Обрабатываем каждую транзакцию
 # for transaction in transactions:
-#         amount_in_rub = conversion_func(transaction)
-#         print(f"Transaction amount in RUB: {amount_in_rub}")
+#     amount_in_rub = conversion_func(transaction)
+#     print(f"Transaction amount in RUB: {amount_in_rub}")

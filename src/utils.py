@@ -1,28 +1,25 @@
 import json
-import os
+
 
 def load_transactions(file_path):
-    if not os.path.exists(file_path):
+    """
+    Принимает на вход путь до JSON-файла и возвращает список словарей с данными о финансовых транзакциях.
+    Если файл пустой, содержит не список или не найден, функция возвращает пустой список.
+    """
+
+    try:
+        with open(file_path, "r", encoding="utf-8") as file:
+            try:
+                data = json.load(file)
+                if isinstance(data, list):
+                    return data
+                else:
+                    return []
+            except json.JSONDecodeError:
+                return []
+    except FileNotFoundError:
         return []
 
-    with open(file_path, 'r', encoding='utf-8') as file:
-        try:
-            data = json.load(file)
-        except json.JSONDecodeError:
-            return []
 
-    if isinstance(data, list):
-        return data
-    else:
-        return []
-
-transactions = load_transactions('data/operations.json')
-print(transactions)
-
-# Импортируем необходимые модули: мы используем json для работы с JSON-файлом и os для проверки существования файла.
-# Функция load_transactions:
-# Аргумент file_path принимает путь к JSON-файлу.
-# Проверяем, существует ли файл. Если нет, возвращаем пустой список.
-# Если файл существует, открываем его и пытаемся загрузить данные с помощью json.load().
-# Обрабатываем возможные ошибки при чтении JSON с помощью try-except, чтобы избежать исключения, если файл не является корректным JSON.
-# Проверяем, является ли загруженные данные списком. Если да, возвращаем его, иначе возвращаем пустой список.
+# transactions = load_transactions("../data/operations.json")
+# print(transactions)

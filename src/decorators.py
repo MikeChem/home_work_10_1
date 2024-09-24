@@ -28,6 +28,7 @@ def log(filename=None):
                 print(log_str)
 
             return result
+
         return wrapper
 
     return decorator
@@ -36,5 +37,6 @@ def log(filename=None):
 @log()
 def function(x, y):
     return x / y
+
 
 print(function(1, 2))
