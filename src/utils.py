@@ -1,4 +1,14 @@
 import json
+import logging
+
+logging.basicConfig(
+    level=logging.DEBUG,
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    filename="../logs/utils.log",
+    filemode="w",
+)
+
+logger = logging.getLogger("utils")
 
 
 def load_transactions(file_path):
@@ -8,16 +18,20 @@ def load_transactions(file_path):
     """
 
     try:
+        logger.info("Открытие файла по указанному пути")
         with open(file_path, "r", encoding="utf-8") as file:
             try:
+                logger.info("Преобразование json-данных из файла")
                 data = json.load(file)
                 if isinstance(data, list):
                     return data
                 else:
                     return []
             except json.JSONDecodeError:
+                logger.warning("Ошибка: некорректные данные")
                 return []
     except FileNotFoundError:
+        logger.error("Ошибка: Некорректный путь к файлу, либо файл отсутствует")
         return []
 
 
