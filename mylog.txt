@@ -23,3 +23,5 @@ my_function is ok
 my_function is ok
 my_function is ok
 my_function is ok
+my_function is ok
+my_function is ok

@@ -1,5 +1,5 @@
-from typing import Union
 import logging
+from typing import Union
 
 logging.basicConfig(
     level=logging.DEBUG,
