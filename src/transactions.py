@@ -1,4 +1,5 @@
 from pathlib import Path
+from typing import Any
 
 import pandas as pd
 
@@ -7,7 +8,7 @@ transactions_csv = BASE_DIR / "data" / "transactions_csv.csv"
 transactions_xlsx = BASE_DIR / "data" / "transactions_excel.xlsx"
 
 
-def load_transactions_сsv(file_path_csv: Path, sep=";") -> list:
+def load_transactions_сsv(file_path_csv: Path, sep=";") -> list[dict[Any, Any]]:
     """
     Принимает на вход путь до csv-файла и возвращает список словарей с данными о финансовых транзакциях.
     Если файл пустой, содержит не список или не найден, функция возвращает пустой список.
@@ -15,7 +16,30 @@ def load_transactions_сsv(file_path_csv: Path, sep=";") -> list:
 
     try:
         csv_data = pd.read_csv(file_path_csv, sep=sep)
-        return csv_data.to_dict(orient="records")
+        transactions = csv_data.to_dict(orient="records")
+        result = []
+        for transaction in transactions:
+            transaction_dict: dict[Any, Any] = {
+                "id": "",
+                "state": "",
+                "date": "",
+                "operationAmount": {"amount": "", "currency": {"name": "", "code": ""}},
+                "description": "",
+                "from": "",
+                "to": "",
+            }
+            for key, value in transaction.items():
+                if key == "amount":
+                    transaction_dict["operationAmount"]["amount"] = value
+                elif key == "currency_name":
+                    transaction_dict["operationAmount"]["currency"]["name"] = value
+                elif key == "currency_code":
+                    transaction_dict["operationAmount"]["currency"]["code"] = value
+                else:
+                    transaction_dict[key] = value
+            result.append(transaction_dict)
+
+        return result
 
     except pd.errors.EmptyDataError:
         return []
@@ -24,7 +48,7 @@ def load_transactions_сsv(file_path_csv: Path, sep=";") -> list:
 
 
 transactions_csv = load_transactions_сsv(transactions_csv)
-print(transactions_csv)
+# print(transactions_csv)
 
 
 def load_transactions_xlsx(file_path_xlsx: Path) -> list:
@@ -35,8 +59,29 @@ def load_transactions_xlsx(file_path_xlsx: Path) -> list:
 
     try:
         excel_data = pd.read_excel(file_path_xlsx, sheet_name=0)
-        return excel_data.to_dict(orient="records")
-
+        transactions = excel_data.to_dict(orient="records")
+        result = []
+        for transaction in transactions:
+            transaction_dict: dict[Any, Any] = {
+                "id": "",
+                "state": "",
+                "date": "",
+                "operationAmount": {"amount": "", "currency": {"name": "", "code": ""}},
+                "description": "",
+                "from": "",
+                "to": "",
+            }
+            for key, value in transaction.items():
+                if key == "amount":
+                    transaction_dict["operationAmount"]["amount"] = value
+                elif key == "currency_name":
+                    transaction_dict["operationAmount"]["currency"]["name"] = value
+                elif key == "currency_code":
+                    transaction_dict["operationAmount"]["currency"]["code"] = value
+                else:
+                    transaction_dict[key] = value
+            result.append(transaction_dict)
+        return result
     except pd.errors.EmptyDataError:
         return []
     except Exception:
@@ -44,4 +89,4 @@ def load_transactions_xlsx(file_path_xlsx: Path) -> list:
 
 
 transactions_xlsx = load_transactions_xlsx(transactions_xlsx)
-print(transactions_xlsx)
+# print(transactions_xlsx)

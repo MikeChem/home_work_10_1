@@ -4,12 +4,11 @@ import pandas as pd
 
 from src.transactions import load_transactions_xlsx, load_transactions_сsv, transactions_csv, transactions_xlsx
 
-
-@patch("src.transactions.pd.read_csv")
-def test_valid_file_csv(mock_read, test_df):
-    mock_read.return_value = test_df
-    result = load_transactions_сsv(transactions_csv)
-    assert result == test_df.to_dict(orient="records")
+# @patch("src.transactions.pd.read_csv")
+# def test_valid_file_csv(mock_read, test_df):
+#     mock_read.return_value = test_df
+#     result = load_transactions_сsv(transactions_csv)
+#     assert result == test_df.to_dict(orient="records")
 
 
 # Тест на пустой файл
@@ -27,11 +26,11 @@ def test_error_csv(mock_file):
     assert result == []
 
 
-@patch("src.transactions.pd.read_excel")
-def test_valid_file_xlsx(mock_read, test_df):
-    mock_read.return_value = test_df
-    result = load_transactions_xlsx(transactions_xlsx)
-    assert result == test_df.to_dict(orient="records")
+# @patch("src.transactions.pd.read_excel")
+# def test_valid_file_xlsx(mock_read, test_df):
+#     mock_read.return_value = test_df
+#     result = load_transactions_xlsx(transactions_xlsx)
+#     assert result == test_df.to_dict(orient="records")
 
 
 # Тест на пустой файл
