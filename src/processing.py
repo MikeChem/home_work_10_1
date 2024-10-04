@@ -1,16 +1,10 @@
-def filter_by_state(list_of_dictionary: list, key: str = "EXECUTED") -> list:
-    """
-    Возвращает новый список словарей, содержащий только те словари,
-    у которых ключ state cоответствует указанному значению.
-    """
+def filter_by_state(list_dicts: list, key: str = "EXECUTED") -> list:
+    """Функция, которая принимает список словарей
+    и опционально значение для ключа state (по умолчанию 'EXECUTED').
+    Функция возвращает новый список словарей, содержащий только те словари,
+    у которых ключ state соответствует указанному значению."""
 
-    new_list_of_dictionary = []
-
-    for object in list_of_dictionary:
-        if object["state"] == key:
-            new_list_of_dictionary.append(object)
-
-    return new_list_of_dictionary
+    return [i for i in list_dicts if i.get("state") == key.upper()]
 
 
 def sort_by_date(list_of_dictionary: list, is_reverse: bool = True) -> list:
